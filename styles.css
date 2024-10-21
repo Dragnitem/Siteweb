@@ -1,0 +1,355 @@
+
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap);
+* {
+   font-family: 'Montserrat';
+}
+
+html{
+    scroll-behavior: smooth;
+}
+body{
+    margin: 0 auto;
+}
+
+/* tête de page */
+
+header.header {
+    display: flex;
+    align-items: center;
+}
+
+header.header img {
+    width: 150px;
+}
+
+section.top-page {
+    background: url('../images/nasa-yZygONrUBe8-unsplash.jpg');
+    background-size: cover;
+    height: 80vh;
+    padding: 25px;
+}
+
+
+/* page de bienvenue (landing page) */
+
+.landing-page {
+    padding: 20px 50px;
+}
+
+.big-title {
+    color: white;
+    font-size: 50px;
+    font-family: 'Abril FatFace', cursive;
+    font-weight: 100;
+}
+
+.scroll-down {
+    color: white;
+    text-decoration: none;
+    position: absolute;
+    bottom: 160px;
+}
+/* menu de navigation  */
+
+nav.nav {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    width: 400px;
+    margin-left: 30px;
+}
+
+
+nav.nav li a {
+    color: black;
+    height: 500px;
+    text-decoration: none;
+}
+
+/* services */
+
+.service {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 50px;
+}
+
+.service-item{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.delivery-icon {
+    font-size: 50px;
+    color: greenyellow
+}
+
+.service.details{
+    font-weight: 600;
+    width: 200px;
+    text-align: center;
+}
+
+/* best sells */
+
+.section-title {
+    font-size: 50px;
+    font-family:'Abril FatFace', cursive;
+    font-weight: 100;
+    position: relative;
+}
+
+.section-title::before {
+    content: "";
+    position: absolute;
+    background-color: greenyellow;
+    width: 50px;
+    height: 7px;
+    bottom: 0;
+}
+
+.bests-card{
+    margin: 50px;
+}
+.carte-thematique {
+    background-color: red;
+    min-height: 500px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Carte-box {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+
+}
+.no-grid {
+    min-width: 350px;
+    height: 500px;
+    flex: 1;
+}
+
+
+.carte1 {
+    background-image: url(/images/Temperature.webp);
+}
+
+.carte2 {
+    background-image: url(/images/usgs-IHdQVLwEIdk-unsplash.jpg);
+}
+
+.carte3 {
+    background-image: url(/images/CO2\ emission.webp);
+}
+
+.carte4 {
+    background-image: url(/images/Rain\ image.webp);
+}
+
+.carte-details {
+    position:absolute;
+    width: 100%;
+    bottom: 0;
+    background-color:#FFFFFFDF;
+    padding: 5px 20px;
+}
+
+.carte-name {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 3px ;
+}
+
+.carte-aspect {
+    color: green;
+    line-height: 3px ;
+    font-size: 14px;
+    font-weight: 800;
+}
+/* nos plantes */
+
+.Toutes-les-cartes {
+    margin: 100px;
+}
+
+.carte-grid {
+    display: grid;
+    min-height: 150vh;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 400px);
+}
+.carte-grid1 {
+    background-image: url(../images/usgs-Knh_5u-ZhJw-unsplash.jpg) ;
+    grid-column: 1/3;
+    grid-row: 1/3;
+}
+
+.carte-grid2 {
+    background-image: url(../images/Population\ growth\ map.webp) ;
+    grid-column: 3/5;
+}
+
+.carte-grid3 {
+    background-image: url(../images/Aridité\ image\ \(2\).jpg) ;
+    grid-column: 3/5;
+}
+
+.carte-grid4 {
+    background-image: url(../images/NDVI\ image\ site.webp) ;
+    grid-column: 1;
+    grid-row: 3/5;
+}
+
+.carte-grid5 {
+    background-image: url(../images/inondation.webp) ;
+    grid-column: 2/4;
+    grid-row: 3/5;
+}
+
+.carte-grid6 {
+    background-image: url(../images/PDSI-sécheresse.webp) ;
+    grid-column: 4;
+    grid-row: 3/5;
+}
+
+
+/* pied de page */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 100px;
+    font-weight: 600;
+
+}
+
+footer a.cgv {
+    text-decoration: none;
+    color: black;
+}
+
+/* Style pour la section des prévisions météorologiques */
+.section-previsions {
+    background-color: #f0f4f8;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.section-previsions h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #333;
+    font-family: 'Abril Fatface', cursive;
+}
+
+.weather-card {
+    display: inline-block;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px;
+    width: 250px;
+    text-align: left;
+}
+
+.weather-card h3 {
+    font-size: 24px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.weather-card p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.weather-card p strong {
+    color: #333;
+}
+
+.weather-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+
+/* Styles pour la section des activités */
+.section-activites {
+    background-color: #f9f9f9; /* Couleur de fond claire */
+    padding: 40px 20px; /* Espacement autour de la section */
+    text-align: center; /* Centre le texte */
+}
+
+.section-title {
+    font-size: 2rem; /* Taille de la police pour le titre */
+    margin-bottom: 20px; /* Espacement sous le titre */
+    color: #333; /* Couleur du texte */
+}
+
+.activite-card {
+    background-color: #fff; /* Couleur de fond blanche pour les cartes */
+    border: 1px solid #ddd; /* Bordure grise */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    margin: 20px; /* Espacement externe */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    transition: transform 0.3s; /* Transition pour l'effet d'agrandissement */
+}
+
+.activite-card:hover {
+    transform: scale(1.05); /* Agrandit la carte au survol */
+}
+
+.activite-card h3 {
+    font-size: 1.5rem; /* Taille de la police pour les sous-titres */
+    color: #007BFF; /* Couleur bleue pour les sous-titres */
+    margin-bottom: 10px; /* Espacement sous le sous-titre */
+}
+
+.activite-card p {
+    font-size: 1rem; /* Taille de la police pour le texte */
+    color: #555; /* Couleur grise pour le texte */
+}
+
+/* Styles supplémentaires pour rendre la section plus attrayante */
+@media (min-width: 768px) {
+    .section-activites {
+        display: flex; /* Utilise flexbox pour un meilleur alignement */
+        justify-content: center; /* Centre les cartes */
+        flex-wrap: wrap; /* Permet aux cartes de se déplacer sur plusieurs lignes */
+    }
+
+    .activite-card {
+        flex: 0 1 calc(30% - 40px); /* Largeur des cartes */
+        margin: 20px; /* Espacement autour des cartes */
+    }
+}
+
+/* Carte interactive pour la prévision */
+.map-section {
+    padding: 20px;
+    text-align: center;
+}
+
+#map {
+    height: 100vh;
+    width: 100%;
+}
+
+.leaflet-popup-content h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.leaflet-marker-icon {
+    background-color: rgba(255, 100, 100, 0.7); /* Marqueurs rouges translucides */
+    border-radius: 50%;
+}
+
+

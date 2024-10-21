@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <me<ta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sen earth</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #map { height: 400px; }
+        #weather { margin-top: 20px; }
+        canvas { max-width: 600px; }
+    </style>
+</head>
+<body>
+    <section class="top-page">
+        <header class="header">
+            <img src="images/Sen_earth2-removebg-preview.png" alt="Logo du site">
+            <nav class="nav"> 
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="#bests-card">Données pertinentes</a></li>
+                <li><a href="#Toutes-les-cartes">Prévisions</a></li>
+            </nav>
+        </header>
+        <div class="landing-page">
+            <h1 class="big-title">Sen earth, au service de la résilience contre le changement climatique</h1> 
+            <a class="scroll-down" href="#service">Scroll <i class="fas fa-angle-down"></i></a>
+        </div> 
+    </section>
+
+    <section class="service" id="service">
+        <div class="service-item">
+            <i class="fas fa-temperature-high delivery-icon"></i>
+            <p class="service-details">La température</p>
+        </div>  
+        <div class="service-item">
+            <i class="fas fa-seedling delivery-icon"></i>
+            <p class="service-details">Activités agricoles</p> 
+        </div>
+        <div class="service-item">
+            <i class="fas fa-cloud-sun delivery-icon"></i>
+            <p class="service-details">Prévisions climatiques</p> 
+        </div>
+    </section>
+
+    <section class="bests-card" id="bests-card">
+        <h2 class="section-title">Prévisions et Données (Forecasts & Data)</h2>
+        <div class="carte-thematique">
+            <a class="Carte-box carte1 no-grid">
+                <div class="carte-details">
+                    <p class="carte-name">Carte</p>
+                    <p class="carte-aspect">température</p>  
+                </div>
+            </a>
+            <a class="Carte-box carte2 no-grid">
+                <div class="carte-details">
+                    <p class="carte-name">Carte2</p>
+                    <p class="carte-aspect">images satellitaires</p>  
+                </div>
+            </a>
+            <a class="Carte-box carte3 no-grid">
+                <div class="carte-details">
+                    <p class="carte-name">Carte 3</p>
+                    <p class="carte-aspect">émissions de CO2</p>  
+                </div>
+            </a>
+            <a class="Carte-box carte4 no-grid">                
+                <div class="carte-details">    
+                    <p class="carte-name">Carte 4</p>
+                    <p class="carte-aspect">Précipitations</p>  
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="Toutes-les-cartes" id="Toutes-les-cartes">
+        <h2 class="section-title">Nos cartes</h2>
+        <div class="carte-grid">
+            <a class="carte-grid1 Carte-box">
+                <div class="carte-details">
+                    <p class="carte-name">Carte</p>
+                    <p class="carte-aspect">Couverture terrestre</p>  
+                </div>
+            </a>
+            <a class="carte-grid2 Carte-box">
+                <div class="carte-details">
+                    <p class="carte-name">Carte</p>
+                    <p class="carte-aspect">Données démographiques</p>  
+                </div>
+            </a>
+            <a class="carte-grid3 Carte-box">
+                <div class="carte-details">
+                    <p class="carte-name">Carte</p>
+                    <p class="carte-aspect">Aridité</p>  
+                </div>
+            </a>
+            <a class="carte-grid4 Carte-box">
+                <div class="carte-details">
+                    <p class="carte-name">Carte</p>
+                    <p class="carte-aspect">NDVI</p>  
+                </div>
+            </a>
+            <a class="carte-grid5 Carte-box">
+                <div class="carte-details">
+                    <p class="carte-name">Carte</p>
+                    <p class="carte-aspect">Inondations</p>  
+                </div>
+            </a>
+            <a class="carte-grid6 Carte-box">
+                <div class="carte-details">
+                    <p class="carte-name">Carte2</p>
+                    <p class="carte-aspect">PDSI/sécheresse</p>  
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="weather-section" id="weather-section">
+        <h2 class="section-title">Prévisions Météorologiques pour le Sénégal</h2>
+        <div class="weather-info" id="weather"></div>
+    </section>
+
+    <footer>
+        <p class="copiright">&copy;2024- Sen earth-Sénégal</p>
+        <a href="" class="cgv">Conditions générales d'utilisations</a>
+    </footer>
+
+    <section id="meteo" class="section-previsions">
+        <h2>Prévisions Météorologiques</h2>
+        <div id="weather-container">
+            <p>Chargement des prévisions météo...</p>
+        </div>
+    </section>
+    <section class="map-section" id="map-section">
+        <h2 class="section-title">Carte Climatique du Sénégal</h2>
+        <div id="map" style="height: 500px;"></div>
+    </section>
+    
+    <script>
+        const regions = [
+            { name: "Dakar", lat: 14.6928, lon: -17.4467 },
+            { name: "Thiès", lat: 14.795, lon: -16.926 },
+            { name: "Saint-Louis", lat: 16.0179, lon: -16.4896 },
+            { name: "Ziguinchor", lat: 12.5839, lon: -16.2719 },
+            { name: "Kaolack", lat: 14.1822, lon: -16.2533 },
+            { name: "Tambacounda", lat: 13.7689, lon: -13.6673 },
+            { name: "Kolda", lat: 12.88, lon: -14.9508 },
+            { name: "Fatick", lat: 14.3384, lon: -16.4165 },
+            { name: "Louga", lat: 15.6187, lon: -16.2244 },
+            { name: "Matam", lat: 15.6559, lon: -13.2554 },
+            { name: "Diourbel", lat: 14.6606, lon: -16.231 },
+            { name: "Kaffrine", lat: 14.1059, lon: -15.5501 },
+            { name: "Sédhiou", lat: 12.7079, lon: -15.5569 },
+            { name: "Kédougou", lat: 12.5601, lon: -12.1743 }
+        ];
+    
+        const apiKey = '73c24c70c8a50b359ec3b8e5c6f74902';
+        const weatherContainer = document.getElementById('weather-container');
+    
+        regions.forEach(region => {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${region.lat}&lon=${region.lon}&appid=${apiKey}&units=metric&lang=fr`)
+            .then(response => response.json())
+            .then(data => {
+                const weatherCard = document.createElement('div');
+                weatherCard.classList.add('weather-card');
+                
+                weatherCard.innerHTML = `
+                    <h3>${region.name}</h3>
+                    <p><strong>Température:</strong> ${data.main.temp} °C</p>
+                    <p><strong>Conditions:</strong> ${data.weather[0].description}</p>
+                    <p><strong>Humidité:</strong> ${data.main.humidity} %</p>
+                    <p><strong>Vent:</strong> ${data.wind.speed} m/s</p>
+                `;
+                
+                weatherContainer.appendChild(weatherCard);
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                weatherContainer.innerHTML = '<p>Impossible de récupérer les données météo.</p>';
+            });
+        });
+    </script>
+    <h1>Carte des Régions et Prévisions Météo</h1>
+    <div id="selection">
+        <label for="dataType">Sélectionnez le type de données à afficher :</label>
+        <select id="dataType">
+            <option value="temperature">Température (°C)</option>
+            <option value="precipitation">Précipitations (mm)</option>
+        </select>
+    </div>
+    <div id="map"></div>
+    <div id="weather"></div>
+    <canvas id="forecastChart"></canvas>
+    <script>
+        const Region = [
+            { name: "Dakar", lat: 14.6928, lon: -17.4467 },
+            { name: "Saint-Louis", lat: 16.0, lon: -16.0 },
+            { name: "Thiès", lat: 14.7886, lon: -16.9342 },
+            { name: "Kaolack", lat: 14.151, lon: -16.072 },
+            { name: "Ziguinchor", lat: 12.5784, lon: -16.2719 },
+            { name: "Kolda", lat: 12.8958, lon: -14.9413 },
+            { name: "Tambacounda", lat: 13.77, lon: -13.667 },
+            { name: "Matam", lat: 15.6559, lon: -13.2554 },
+            { name: "Kédougou", lat: 12.5614, lon: -12.1749 },
+            { name: "Fatick", lat: 14.3436, lon: -16.418 },
+            { name: "Louga", lat: 15.6109, lon: -16.2503 },
+            { name: "Diourbel", lat: 14.6561, lon: -16.2438 }
+        ];
+    
+        // Initialiser la carte avec Windy layers
+        const options = {
+            key: 'nufWb4sT7e6mSNjJ6RuVRBf7nnWuo9Ri', // Insérez votre clé API Windy ici
+            lat: 14.6928,
+            lon: -17.4467,
+            zoom: 6,
+            overlay: 'temp', // Vous pouvez utiliser 'wind', 'temp', 'clouds', etc.
+        };
+    
+        // Ajouter une couche de fond de carte
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+    
+        // Fonction pour ajouter des marqueurs pour chaque région
+        Region.forEach(region => {
+            const marker = L.marker([region.lat, region.lon])
+                .addTo(map)
+                .bindPopup(`<strong>${region.name}</strong><br/>Chargement des prévisions...`);
+    
+            marker.on('click', () => {
+                fetchWeatherForecast(region, marker);
+            });
+        });
+    
+        // Fonction pour récupérer les prévisions météo
+        function fetchWeatherForecast(region, marker) {
+            const apiKey = '73c24c70c8a50b359ec3b8e5c6f74902'; // Insérez votre clé API OpenWeather ici
+            const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${region.lat}&lon=${region.lon}&appid=${apiKey}&units=metric`;
+    
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    displayWeatherForecast(data, marker);
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la récupération des prévisions météo:", error);
+                    marker.bindPopup(`<strong>${region.name}</strong><br/>Erreur lors de la récupération des prévisions.`);
+                });
+        }
+        // Fonction pour mettre à jour la popup du marqueur en fonction des données sélectionnées
+        function updateMarkerPopup(data, marker) {
+            const selectedDataType = document.getElementById('dataType').value;
+            const forecastData = data.list.slice(0, 8); // Prévisions sur 24 heures
+
+            let displayedData = [];
+            if (selectedDataType === 'temperature') {
+                displayedData = forecastData.map(forecast => forecast.main.temp);
+            } else if (selectedDataType === 'precipitation') {
+                displayedData = forecastData.map(forecast => forecast.rain ? forecast.rain['3h'] || 0 : 0);
+            }
+
+            let forecastHTML = `<h3>Prévisions pour ${data.city.name}</h3>`;
+            forecastHTML += `<p>${selectedDataType === 'temperature' ? 'Températures' : 'Précipitations'} (prochaines 24h) : ${displayedData.join(', ')} ${selectedDataType === 'temperature' ? '°C' : 'mm'}</p>`;
+
+            marker.bindPopup(forecastHTML).openPopup();
+        }
+
+        // Mettre à jour les prévisions pour tous les marqueurs lorsqu'un type de donnée est sélectionné
+        document.getElementById('dataType').addEventListener('change', () => {
+            regions.forEach(region => {
+                fetchWeatherForecast(region);
+        });
+    });
+
+        
+    
+        // Fonction pour afficher les prévisions météo sur la carte
+        function displayWeatherForecast(data, marker) {
+            const temperatures = [];
+            const precipitations = [];
+            const labels = [];
+    
+            // Parcourir les prévisions horaires (toutes les 3 heures)
+            data.list.slice(0, 8).forEach(forecast => { // Limité à 8 périodes pour 24h
+                const date = new Date(forecast.dt * 1000);
+                labels.push(date.getHours() + 'h');
+    
+                temperatures.push(forecast.main.temp);
+                precipitations.push(forecast.rain ? forecast.rain['3h'] || 0 : 0);
+            });
+    
+            // Afficher les données dans la fenêtre contextuelle du marqueur
+            let forecastHTML = `<h3>Prévisions pour ${data.city.name}</h3>`;
+            forecastHTML += `<p>Température (prochaines 24h) : ${temperatures.join(', ')} °C</p>`;
+            forecastHTML += `<p>Précipitations (prochaines 24h) : ${precipitations.join(', ')} mm</p>`;
+    
+            marker.bindPopup(forecastHTML).openPopup();
+        }
+    </script>
+    <section class="section-activites">
+        <h2 class="section-title">Activités menacées par le changement climatique</h2>
+        
+        <div class="region-selector">
+            <label for="region-select">Choisissez une région :</label>
+            <select id="region-select">
+                <option value="kaolack">Kaolack (Agriculture)</option>
+                <option value="saintLouis">Saint-Louis (Pêche)</option>
+                <option value="tambacounda">Tambacounda (Élevage)</option>
+                <option value="dakar">Dakar (Agriculture, Pêche)</option>
+                <option value="ziguinchor">Ziguinchor (Agriculture, Pêche)</option>
+                <option value="kolda">Kolda (Élevage)</option>
+                <option value="tivaouane">Tivaouane (Agriculture)</option>
+            </select>
+        </div>
+    
+        <!-- Carte pour l'Agriculture -->
+        <div class="activite-card" id="agriculture-card" style="display:none;">
+            <h3>Agriculture</h3>
+            <p><strong>Température actuelle :</strong> <span id="temp-agri"></span>°C</p>
+            <p><strong>Précipitations :</strong> <span id="precip-agri"></span>mm</p>
+            <p><strong>Impact :</strong> Stress hydrique pour les cultures.</p>
+        </div>
+    
+        <!-- Carte pour la Pêche -->
+        <div class="activite-card" id="peche-card" style="display:none;">
+            <h3>Pêche</h3>
+            <p><strong>Température de l'eau :</strong> <span id="temp-peche"></span>°C</p>
+            <p><strong>Vents :</strong> <span id="vents-peche"></span>m/s</p>
+            <p><strong>Impact :</strong> Modifications des zones de pêche.</p>
+        </div>
+    
+        <!-- Carte pour l'Élevage -->
+        <div class="activite-card" id="elevage-card" style="display:none;">
+            <h3>Élevage</h3>
+            <p><strong>Température actuelle :</strong> <span id="temp-elevage"></span>°C</p>
+            <p><strong>Humidité :</strong> <span id="hum-elevage"></span>%</p>
+            <p><strong>Impact :</strong> Stress thermique sur le bétail.</p>
+        </div>
+    </section>
+    
+    <script>
+        const apiKei = '3c24c70c8a50b359ec3b8e5c6f74902'; // Ajoute ta clé API ici
+    
+        // Sélectionne les éléments pour afficher les données
+        const tempAgriElement = document.getElementById('temp-agri');
+        const precipAgriElement = document.getElementById('precip-agri');
+        const tempPecheElement = document.getElementById('temp-peche');
+        const ventsPecheElement = document.getElementById('vents-peche');
+        const tempElevageElement = document.getElementById('temp-elevage');
+        const humElevageElement = document.getElementById('hum-elevage');
+    
+        const regionSelect = document.getElementById('region-select');
+    
+        // Données des régions avec les activités correspondantes
+        const Regions = {
+            kaolack: { name: "Kaolack", lat: 14.1822, lon: -16.2533, activities: ['agriculture'] },
+            saintLouis: { name: "Saint-Louis", lat: 16.0179, lon: -16.4896, activities: ['peche'] },
+            tambacounda: { name: "Tambacounda", lat: 13.7592, lon: -13.0935, activities: ['elevage'] },
+            dakar: { name: "Dakar", lat: 14.6928, lon: -17.4467, activities: ['agriculture', 'peche'] },
+            ziguinchor: { name: "Ziguinchor", lat: 12.5894, lon: -16.2718, activities: ['agriculture', 'peche'] },
+            kolda: { name: "Kolda", lat: 12.8952, lon: -14.8931, activities: ['elevage'] },
+            tivaouane: { name: "Tivaouane", lat: 14.2165, lon: -16.8241, activities: ['agriculture'] }
+        };
+    
+        // Fonction pour récupérer et afficher les données météo pour une région donnée
+        function fetchWeatherData(region) {
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${region.lat}&lon=${region.lon}&appid=${apiKey}&units=metric&lang=fr`)
+                .then(response => response.json())
+                .then(data => {
+                    // Masque toutes les cartes d'activités
+                    document.getElementById('agriculture-card').style.display = 'none';
+                    document.getElementById('peche-card').style.display = 'none';
+                    document.getElementById('elevage-card').style.display = 'none';
+    
+                    // Met à jour les éléments HTML avec les données récupérées
+                    if (region.activities.includes('agriculture')) {
+                        tempAgriElement.textContent = data.main.temp;
+                        precipAgriElement.textContent = data.rain ? data.rain['1h'] || 0 : 0;
+                        document.getElementById('agriculture-card').style.display = 'block';
+                    }
+                    if (region.activities.includes('peche')) {
+                        tempPecheElement.textContent = data.main.temp;
+                        ventsPecheElement.textContent = data.wind.speed;
+                        document.getElementById('peche-card').style.display = 'block';
+                    }
+                    if (region.activities.includes('elevage')) {
+                        tempElevageElement.textContent = data.main.temp;
+                        humElevageElement.textContent = data.main.humidity;
+                        document.getElementById('elevage-card').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des données:', error);
+                    // Gestion des erreurs
+                    if (region.activities.includes('agriculture')) {
+                        tempAgriElement.textContent = 'Données indisponibles';
+                        precipAgriElement.textContent = 'Données indisponibles';
+                    }
+                    if (region.activities.includes('peche')) {
+                        tempPecheElement.textContent = 'Données indisponibles';
+                        ventsPecheElement.textContent = 'Données indisponibles';
+                    }
+                    if (region.activities.includes('elevage')) {
+                        tempElevageElement.textContent = 'Données indisponibles';
+                        humElevageElement.textContent = 'Données indisponibles';
+                    }
+                });
+        }
+    
+        // Écouteur d'événements pour changer de région
+        regionSelect.addEventListener('change', (event) => {
+            const selectedRegion = event.target.value;
+            fetchWeatherData(Regions[selectedRegion]);
+        });
+    
+        // Récupère les données pour la région par défaut (Kaolack)
+        fetchWeatherData(Regions.kaolack);
+    </script>
+    
+</body>
+</html>
